@@ -23,15 +23,15 @@ def get_attendance(employee,day):
             duration = datetime.combine(date.min, date_string_PM.time()) - datetime.combine(date.min, date_string_AM.time())
             hours=(duration.seconds//3600)
             minutes = ((duration.seconds//60)%60)
-            return({'attended':True,'duration':str(hours)+":"+str(minutes)})
+            print({'attended':True,'duration':str(hours)+":"+str(minutes)})
         else:
-            return({'attended':False})
+            print({'attended':False})
     else:
-        return({'attended':False})
+        print({'attended':False})
 
    
 
-print(get_attendance('EMP01','2020-04-02'))
+get_attendance('EMP01','2020-04-02')
 
 
 
