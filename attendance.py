@@ -34,8 +34,11 @@ def get_attendance(employee,day):
 
 def attendance_history(employee):
     days_q= c.execute("SELECT day FROM Attendance where employee = :employee",{'employee':employee})
-    total_days = {'days' :days_q.fetchall()}
-    json_days = json.dumps(total_days,indent=2)
+    total_days = days_q.fetchall()
+    #json_days = json.dumps(total_days,indent=2)
+    attendance = {'days':[],'actions':[]}
+    for day in total_days:
+        attendance['days'].append(day)
     ID_q= c.execute("SELECT id FROM Attendance where employee = :employee",{'employee':employee})
     employee_id = ID_q.fetchall()
     action_q = c.execute("SELECT action,ActionTime FROM AttendanceActions WHERE AttendanceId =:id",{'id':int(employee_id[0][0])})
@@ -43,8 +46,9 @@ def attendance_history(employee):
     for i in employee_action:
         only_time = i[1]
         time_stamp=parser.parse(only_time)
-        iso_date = datetime.isoformat(time_stamp)
-    print(json_days,iso_date)
+        iso_date = json.dumps(datetime.isoformat(time_stamp))
+        attendance['actions'].append(iso_date)
+    print(attendance)
 
 attendance_history('EMP01')
 
