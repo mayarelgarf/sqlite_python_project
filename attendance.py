@@ -30,7 +30,7 @@ def get_attendance(employee,day):
 
    
 
-#print(get_attendance('EMP01','2020-04-02'))
+print(get_attendance('EMP01','2020-04-02'))
 
 def attendance_history(employee):
     days_q= c.execute("SELECT day FROM Attendance where employee = :employee",{'employee':employee})
