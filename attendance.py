@@ -3,6 +3,7 @@ from datetime import datetime ,date
 import pandas as pd
 import numpy as np
 from dateutil import parser
+from dateutil import tz
 import json
 
 #connecting to database
@@ -32,6 +33,8 @@ def get_attendance(employee,day):
 
 print(get_attendance('EMP01','2020-04-02'))
 
+
+
 def attendance_history(employee):
     days_q= c.execute("SELECT day FROM Attendance where employee = :employee",{'employee':employee})
     total_days = days_q.fetchall()
@@ -46,7 +49,9 @@ def attendance_history(employee):
     for i in employee_action:
         only_time = i[1]
         time_stamp=parser.parse(only_time)
-        iso_date = json.dumps(datetime.isoformat(time_stamp))
+        to_zone= tz.gettz('UTC')
+        tt= time_stamp.astimezone(to_zone)
+        iso_date = json.dumps(datetime.isoformat(tt))
         attendance['actions'].append(iso_date)
     print(attendance)
 
